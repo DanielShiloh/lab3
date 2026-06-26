@@ -8,6 +8,9 @@ June 24, 2026
 from pathlib import Path
 import string
 
+#unicode quotes
+extra_punctuation = "“”‘’"
+
 class WordAnalyzer:
     """
     """
@@ -30,14 +33,14 @@ class WordAnalyzer:
             if not self.filepath.exists():
                 raise FileNotFoundError
         
-            translator = str.maketrans('', '', string.punctuation)
+            translator = str.maketrans('', '', string.punctuation + extra_punctuation)
 
-            with self.filepath.open as file:
+            with self.filepath.open('r', encoding='utf-8') as file:
                 for line in file:
                     plain_line = line.translate(translator).lower()
                     words = plain_line.split()
                     for word in words:
-                        self.frequencies[word] += 1
+                        self.frequencies[word] = self.frequencies.get(word, 0) + 1
             return True
         
         except FileNotFoundError:
@@ -76,7 +79,7 @@ def main():
 
     while True:
 
-        print("--- Word Analyzer ---\n")
+        print("\n--- Word Analyzer ---\n")
         print("Please select a file to analyze:\n")
 
         for key, story in file_options.items():
@@ -101,15 +104,14 @@ def main():
 
         print(f"\nProcessing {file_options[choice]}...")
 
-        #instance of WordAnalyzer
+        analyzer = WordAnalyzer(str(selected_path))
 
-        #process_file()
-
-        #if successful, print_report()
-        
+        if analyzer.process_file():
+            analyzer.print_report()
+            
         again = ""
         again = input("Press Enter to return to the menu...")
-        if again == "":
+        if again != "":
             break
 
 if __name__ == "__main__":
