@@ -81,17 +81,17 @@ def main():
 
     while True:
 
-        print("\n--- Word Analyzer ---\n")
-        print("Please select a file to analyze:\n")
+        print("\n--- Word Analyzer ---")
+        print("\nPlease select a file to analyze:")
 
         for key, story in file_options.items():
             print(f"{key}. {story.stem.replace('_',' ').title()}")
         print("5. Exit")
         
-        choice = input("Enter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-5): ")
 
         if choice == "5":
-            print("Goodbye!")
+            print("\nGoodbye!")
             break
     
         if choice in file_options:
@@ -101,10 +101,10 @@ def main():
             if analyzer.process_file():
                 analyzer.print_report()
         else:
-            print("Invalid choice.  Please select from 1 to 5.\n")
+            print("\nInvalid choice.  Please select from 1 to 5.\n")
             
         again = ""
-        again = input("Press Enter to return to the menu...")
+        again = input("\nPress Enter to return to the menu...")
         if again != "":
             break
 
