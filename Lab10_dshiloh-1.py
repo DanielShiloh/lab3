@@ -6,6 +6,7 @@ June 24, 2026
 """
 
 from pathlib import Path
+import string
 
 class WordAnalyzer:
     """
@@ -26,35 +27,41 @@ class WordAnalyzer:
 
 def main():
     """
+    Present user with file options,
+    on their choice print a list of words in the file and their counts
     """
-    intro = "--- Word Analyzer ---\n"
-    intro += "Please select a file to analyze:\n"
-    intro += "1. Monte Cristo\n"
-    intro += "2. Treasure Island\n"
-    intro += "3. Tarzan\n"
-    intro += "4. Princess Mars\n"
-    intro += "5. Exit\n"
+
+    file_options = {
+        1: Path("monte_cristo.txt"),
+        2: Path("treasure_island.txt"),
+        3: Path("Tarzan.txt"),
+        4: Path("princess_mars.txt"),
+    }
 
     while True:
 
-        print(intro)
+        print("--- Word Analyzer ---\n")
+        print("Please select a file to analyze:\n")
+
+        for key, story in file_options.items():
+            print(f"{key}. {story.stem.replace('_',' ').title()}")
+        print("5. Exit")
+        
         choice = input("Enter your choice (1-5): ")
 
         try:
             choice = int(choice)
+            selected_path = file_options[choice]
             #find path for that story
         except ValueError:
-            #print needs to be a number 1-5
+            print("Invalid choice.  Please type a number, 1-5.")
             continue
         except FileNotFoundError:
-            #print invalid input
+            print("Invalid choice.  Please select from 1-5.")
             continue
 
-        choice_path = 0
-        choice_title = ""
-        #if 1, monte_cristo.txt...
+        print(f"\nProcessing {file_options[choice]}...")
 
-        print(f"\nProcessing {choice_title}...")
 
         #instance of WordAnalyzer
 
@@ -62,4 +69,6 @@ def main():
 
         #if successful, print_report()
 
-        print("Press Enter to return to the menu...")
+        again = input("Press Enter to return to the menu...")
+        if again == "":
+            break
