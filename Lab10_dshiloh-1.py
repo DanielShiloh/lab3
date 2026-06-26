@@ -8,11 +8,13 @@ June 24, 2026
 from pathlib import Path
 import string
 
-#unicode quotes
-extra_punctuation = "“”‘’"
+#unicode characters
+extra_punctuation = "“”‘’•"
 
 class WordAnalyzer:
     """
+    Given a file path, creates a dictionary to hold words in the file and their counts
+    Methods to count words and print results
     """
 
     def __init__(self, filepath):
@@ -71,10 +73,10 @@ def main():
     """
 
     file_options = {
-        1: Path("monte_cristo.txt"),
-        2: Path("treasure_island.txt"),
-        3: Path("Tarzan.txt"),
-        4: Path("princess_mars.txt"),
+        "1": Path("monte_cristo.txt"),
+        "2": Path("treasure_island.txt"),
+        "3": Path("Tarzan.txt"),
+        "4": Path("princess_mars.txt"),
     }
 
     while True:
@@ -88,26 +90,18 @@ def main():
         
         choice = input("Enter your choice (1-5): ")
 
-        if choice == 5:
+        if choice == "5":
             print("Goodbye!")
             break
     
-        try:
-            choice = int(choice)
+        if choice in file_options:
+            print(f"\nProcessing {file_options[choice]}...")
             selected_path = file_options[choice]
-        except ValueError:
-            print("Invalid choice.  Please type a number.")
-            continue
-        except FileNotFoundError:
-            print("Invalid choice.  Please select from 1-5.")
-            continue
-
-        print(f"\nProcessing {file_options[choice]}...")
-
-        analyzer = WordAnalyzer(str(selected_path))
-
-        if analyzer.process_file():
-            analyzer.print_report()
+            analyzer = WordAnalyzer(str(selected_path))
+            if analyzer.process_file():
+                analyzer.print_report()
+        else:
+            print("Invalid choice.  Please select from 1 to 5.\n")
             
         again = ""
         again = input("Press Enter to return to the menu...")
